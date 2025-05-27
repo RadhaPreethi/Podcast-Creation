@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AudioGenie</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- SweetAlert2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- SweetAlert2 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        .container {
+            margin-top: 20px;
+        }
+        .card {
+            margin-bottom: 20px;
+        }
+        .btn-custom {
+            background-color: #007bff;
+            color: white;
+        }
+        .btn-custom:hover {
+            background-color: #0056b3;
+        }
+        .modal.fade .modal-dialog {
+            transform: translateY(-100%);
+            transition: transform 0.5s ease;
+        }
+        .modal.show .modal-dialog {
+            transform: translateY(0);
+        }
+        .modal-dialog.slide-in {
+            transform: translateY(-100%);
+        }
+        .modal-dialog.slide-in.show {
+            transform: translateY(0);
+        }
+        .modal-dialog.slide-out {
+            transform: translateY(0);
+        }
+        .modal-dialog.slide-out.show {
+            transform: translateY(100%);
+        }
+        .lib{
+            width: 100%;
+            border-radius: 5px;
+            padding: 10px;
+            font-size: 16px;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+    </style>
+</head>
+
+<body>
+    <!-- Navbar for mobile view -->
+    <nav class="navbar navbar-expand-lg d-lg-none">
+        <button class="navbar-toggler bg-white" type="button" data-toggle="collapse" data-target="#navbarMenu"
+            aria-controls="navbarMenu" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarMenu">
+            <h1 class="text-center"><a class="navbar-brand text-white" href="#"><span class="text-primary">A</span>udio<span class="text-info">G</span>enie</a></h1>
+
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="index.html">
+                        <i class="fa-solid fa-address-card mb-3 m-3 text-white fa-2x"></i>Profile</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link  text-white " href="create.html"> 
+                        <i class="fa-brands fa-creative-commons-share  mb-3 m-3 text-white fa-2x"></i>Podcast Creation</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="trim.html">
+                        <i class="fa-solid fa-wand-magic-sparkles  mb-3 m-3 text-white fa-2x"></i>Audio Editing </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white active" href="library.html">
+                        <i class="fa-solid fa-book-open-reader  mb-3 m-3 text-white fa-2x"></i>Library</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="search.html">
+                        <i class="fa-brands fa-searchengin  mb-3 m-3 text-white fa-2x"></i>Search </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="notification.html">
+                        <i class="fa-regular fa-bell mb-3 m-3 text-white fa-2x"></i>Notifications</a>
+                </li>
+                <a href="login.html">
+                    <button class="lib bg-secondary btn btn-center text-white mt-4 rounded-pill mb-3">Logout</button>
+                  </a>
+               
+            </ul>
+
+        </div>
+    </nav>
+
+    <!-- Sidebar for larger screens -->
+    <div class="d-none d-lg-block">
+        <nav id="sidebarMenu" class="sidebar">
+            <ul class="nav flex-column">
+                <h1 class="text-center"><a class="navbar-brand text-white" href="#"><span class="text-primary">A</span>udio<span class="text-info">G</span>enie</a></h1>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="index.html">
+                        <i class="fa-solid fa-address-card m-3"></i>Profile</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="create.html"> 
+                        <i class="fa-brands fa-creative-commons-share m-3"></i>Podcast Creation</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="trim.html">
+                        <i class="fa-solid fa-wand-magic-sparkles m-3"></i>Audio Editing </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="library.html">
+                        <i class="fa-solid fa-book-open-reader m-3"></i>Library</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="search.html">
+                        <i class="fa-brands fa-searchengin m-3"></i>Search </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="notification.html">
+                        <i class="fa-regular fa-bell m-3"></i>Notifications</a>
+                </li>
+                <a href="login.html">
+                    <button class="lib bg-secondary btn  btn-center text-white mt-4 rounded-pill mb-3">Logout</button>
+                  </a>
+               
+            </ul>
+        </nav>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <h1 class="text-center">Library Management</h1>
+        <div class="text-center mb-4">
+            <button class="btn btn-custom" data-toggle="modal" data-target="#addEpisodeModal">Add Episode</button>
+        </div>
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+                <div id="episodeList" class="row text-dark">
+                    <!-- Dynamic episode cards will be inserted here -->
+                </div>
+            </div>
+            <div class="col-md-3"></div>
+        </div>
+       
+    </div>
+
+    <!-- Add Episode Modal -->
+    <div class="modal fade slide-in text-dark" id="addEpisodeModal" tabindex="-1" role="dialog" aria-labelledby="addEpisodeModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addEpisodeModalLabel">Add New Episode</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="episodeForm">
+                        <div class="form-group">
+                            <label for="episodeTitle">Title</label>
+                            <input type="text" class="form-control" id="episodeTitle" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="episodeDescription">Description</label>
+                            <textarea class="form-control" id="episodeDescription" rows="3" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="episodeSeries">Series</label>
+                            <input type="text" class="form-control" id="episodeSeries" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="episodeAudio">Audio File</label>
+                            <input type="file" class="form-control-file" id="episodeAudio" accept="audio/*" required>
+                        </div>
+                        <button type="submit" class="btn btn-custom">Add Episode</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Episode Modal -->
+    <div class="modal fade slide-in" id="editEpisodeModal" tabindex="-1" role="dialog" aria-labelledby="editEpisodeModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editEpisodeModalLabel">Edit Episode</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="editEpisodeForm">
+                        <input type="hidden" id="editEpisodeIndex">
+                        <div class="form-group">
+                            <label for="editEpisodeTitle">Title</label>
+                            <input type="text" class="form-control" id="editEpisodeTitle" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editEpisodeDescription">Description</label>
+                            <textarea class="form-control" id="editEpisodeDescription" rows="3" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="editEpisodeSeries">Series</label>
+                            <input type="text" class="form-control" id="editEpisodeSeries" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editEpisodeAudio">Audio File</label>
+                            <input type="file" class="form-control-file" id="editEpisodeAudio" accept="audio/*">
+                        </div>
+                        <button type="submit" class="btn btn-custom">Save Changes</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+   
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        const episodes = [];
+        let editingIndex = null;
+
+        document.getElementById('episodeForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const title = document.getElementById('episodeTitle').value;
+            const description = document.getElementById('episodeDescription').value;
+            const series = document.getElementById('episodeSeries').value;
+            const audioFile = document.getElementById('episodeAudio').files[0];
+
+            const newEpisode = {
+                title,
+                description,
+                series,
+                audioFileURL: URL.createObjectURL(audioFile),
+                audioFile
+            };
+
+            episodes.push(newEpisode);
+            displayEpisodes();
+            $('#addEpisodeModal').modal('hide');
+            document.getElementById('episodeForm').reset();
+        });
+
+        function displayEpisodes() {
+            const episodeList = document.getElementById('episodeList');
+            episodeList.innerHTML = '';
+
+            episodes.forEach((episode, index) => {
+                const card = document.createElement('div');
+                card.className = 'col-md-4';
+                card.innerHTML = `
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">${episode.title}</h5>
+                            <p class="card-text">${episode.description}</p>
+                            <p class="card-text"><small class="text-muted">Series: ${episode.series}</small></p>
+                            <audio controls src="${episode.audioFileURL}" class="w-100"></audio>
+                        </div>
+                        <div class="card-footer">
+                            <button class="btn btn-warning btn-sm" onclick="editEpisode(${index})">Edit</button>
+                            <button class="btn btn-danger btn-sm" onclick="deleteEpisode(${index})">Delete</button>
+                        </div>
+                    </div>
+                `;
+                episodeList.appendChild(card);
+            });
+        }
+
+        function editEpisode(index) {
+            editingIndex = index;
+            const episode = episodes[index];
+
+            document.getElementById('editEpisodeTitle').value = episode.title;
+            document.getElementById('editEpisodeDescription').value = episode.description;
+            document.getElementById('editEpisodeSeries').value = episode.series;
+            document.getElementById('editEpisodeIndex').value = index;
+
+            $('#editEpisodeModal').modal('show');
+        }
+
+        document.getElementById('editEpisodeForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const index = document.getElementById('editEpisodeIndex').value;
+            const title = document.getElementById('editEpisodeTitle').value;
+            const description = document.getElementById('editEpisodeDescription').value;
+            const series = document.getElementById('editEpisodeSeries').value;
+            const audioFile = document.getElementById('editEpisodeAudio').files[0];
+            
+            episodes[index] = {
+                title,
+                description,
+                series,
+                audioFileURL: audioFile ? URL.createObjectURL(audioFile) : episodes[index].audioFileURL,
+                audioFile: audioFile || episodes[index].audioFile
+            };
+
+            displayEpisodes();
+            $('#editEpisodeModal').modal('hide');
+        });
+
+        function deleteEpisode(index) {
+            if (confirm('Are you sure you want to delete this episode?')) {
+                episodes.splice(index, 1);
+                displayEpisodes();
+            }
+        }
+
+        // Trigger animations
+        $('#addEpisodeModal').on('show.bs.modal', function () {
+            $('.modal-dialog').removeClass('slide-out').addClass('slide-in');
+        });
+
+        $('#addEpisodeModal').on('hide.bs.modal', function () {
+            $('.modal-dialog').removeClass('slide-in').addClass('slide-out');
+        });
+
+        $('#editEpisodeModal').on('show.bs.modal', function () {
+            $('.modal-dialog').removeClass('slide-out').addClass('slide-in');
+        });
+
+        $('#editEpisodeModal').on('hide.bs.modal', function () {
+            $('.modal-dialog').removeClass('slide-in').addClass('slide-out');
+        });
+    </script>
+</body>
+
+</html>

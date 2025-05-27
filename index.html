@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AudioGenie</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- SweetAlert2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- SweetAlert2 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Pastel Theme Embedded CSS */
+        body {
+            animation: fadeIn 1s ease-in;
+        }
+
+        .container {
+            background-color: rgba(13, 9, 10, 0.452);
+            border-radius: 10px;
+            box-shadow: 3px 2px 4px 8px rgba(75, 73, 73, 0.479);
+            padding: 20px;
+            animation: slideIn 1s ease-in-out;
+            color: whitesmoke;
+        }
+
+        .profile-img img {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            border: 4px solid #d1e7dd; /* Pastel green border */
+            border-radius: 50%;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .profile-img img:hover {
+            transform: scale(1.05); /* Zoom effect on hover */
+        }
+
+        .profile-info h3 {
+            font-size: 26px;
+            font-weight: bold;
+            color: #495057;
+            margin-bottom: 15px;
+        }
+
+        textarea#userBio {
+            resize: none;
+            background-color: #f8f9fa; /* Light gray background */
+            color: #212529;
+            border: 1px solid #ced4da;
+            transition: border-color 0.3s ease;
+        }
+
+        textarea#userBio:focus {
+            border-color: #a8dadc; /* Pastel teal focus border */
+            box-shadow: 0 0 0 0.2rem rgba(160, 224, 224, 0.25); /* Light teal shadow on focus */
+        }
+
+        .form-check-label {
+            color: #495057;
+        }
+
+        .invalid-feedback {
+            display: none;
+        }
+
+        .is-invalid + .invalid-feedback {
+            display: block;
+        }
+
+        .preferences-error {
+            display: none;
+            color: #dc3545;
+            margin-top: 0.25rem;
+            font-size: 80%;
+        }
+
+        .preferences-error.active {
+            display: block;
+        }
+
+        .btn-primary {
+            background-color: #a8dadc; /* Pastel teal */
+            border: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: #74c0fc; /* Pastel blue */
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-20px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .animate__animated.animate__fadeIn {
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        .animate__animated.animate__slideInUp {
+            animation: slideIn 1s ease-in-out;
+        }
+        .btn {
+            width: 100%;
+            border-radius: 5px;
+            padding: 10px;
+            font-size: 16px;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+    </style>
+</head>
+
+<body>
+     <!-- Navbar for mobile view -->
+     <nav class="navbar navbar-expand-lg d-lg-none">
+        <button class="navbar-toggler bg-white" type="button" data-toggle="collapse" data-target="#navbarMenu"
+            aria-controls="navbarMenu" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarMenu">
+            <h1 class="text-center"><a class="navbar-brand text-white" href="#"><span class="text-primary">A</span>udio<span class="text-info">G</span>enie</a></h1>
+
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link text-white active" href="index.html">
+                        <i class="fa-solid fa-address-card mb-3 m-3 text-white fa-2x"></i>Profile</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link  text-white " href="create.html"> 
+                        <i class="fa-brands fa-creative-commons-share  mb-3 m-3 text-white fa-2x"></i>Podcast Creation</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="trim.html">
+                        <i class="fa-solid fa-wand-magic-sparkles  mb-3 m-3 text-white fa-2x"></i>Audio Editing </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="library.html">
+                        <i class="fa-solid fa-book-open-reader  mb-3 m-3 text-white fa-2x"></i>Library</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="search.html">
+                        <i class="fa-brands fa-searchengin  mb-3 m-3 text-white fa-2x"></i>Search </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="notification.html">
+                        <i class="fa-regular fa-bell mb-3 m-3 text-white fa-2x"></i>Notifications</a>
+                </li>
+                <a href="login.html">
+                    <button class="bg-secondary btn btn-center text-white mt-4 rounded-pill mb-3">Logout</button>
+                  </a>
+               
+            </ul>
+
+        </div>
+    </nav>
+
+    <!-- Sidebar for larger screens -->
+    <div class="d-none d-lg-block">
+        <nav id="sidebarMenu" class="sidebar">
+            <ul class="nav flex-column">
+                <h1 class="text-center"><a class="navbar-brand text-white" href="#"><span class="text-primary">A</span>udio<span class="text-info">G</span>enie</a></h1>
+
+                <li class="nav-item">
+                    <a class="nav-link active" href="index.html">
+                        <i class="fa-solid fa-address-card m-3"></i>Profile</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="create.html"> 
+                        <i class="fa-brands fa-creative-commons-share m-3"></i>Podcast Creation</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="trim.html">
+                        <i class="fa-solid fa-wand-magic-sparkles m-3"></i>Audio Editing </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="library.html">
+                        <i class="fa-solid fa-book-open-reader m-3"></i>Library</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="search.html">
+                        <i class="fa-brands fa-searchengin m-3"></i>Search </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="notification.html">
+                        <i class="fa-regular fa-bell m-3"></i>Notifications</a>
+                </li>
+                <a href="login.html">
+                    <button class="bg-secondary btn  btn-center text-white mt-4 rounded-pill mb-3">Logout</button>
+                  </a>
+               
+            </ul>
+        </nav>
+    </div>
+
+
+    <!-- Main Content -->
+    <div class="main">
+        <nav class="navbar navbar-expand px-3 border-bottom">
+            <!-- Button for sidebar toggle -->
+            <!-- <button class="btn" type="button" data-bs-theme="dark">
+                <span class="navbar-toggler-icon"></span>
+            </button> -->
+        </nav>
+        <main class="content px-3 py-2">
+            <div class="container-fluid">
+                <div class="mb-3">
+                    <div class="container mt-5 animate__animated animate__slideInUp">
+                        <div class="row">
+                            <!-- Profile Image Section -->
+                            <div class="col-md-4 text-center">
+                                <div class="profile-img">
+                                    <img src="https://cdn.pixabay.com/photo/2024/01/19/20/08/ai-generated-8519742_640.jpg" alt="Profile Photo" id="profilePhoto" class="img-fluid">
+                                    <input type="file" id="uploadPhoto" class="form-control mt-3" accept="image/*">
+                                    <div class="invalid-feedback" id="photoError">
+                                        Please upload a valid image file.
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Profile Details Section -->
+                            <div class="col-md-8">
+                                <div class="profile-info">
+                                    <h3 id="userName" class="text-white">Muralidhar Profile</h3>
+                                    <textarea id="userBio" class="form-control mt-3" rows="4" placeholder="Enter your bio here..." required></textarea>
+                                    <div class="invalid-feedback text-info">
+                                        Bio is required.
+                                    </div>
+                                </div>
+                                <!-- Podcast Preferences Section -->
+                                <div class="podcast-preferences mt-4">
+                                    <h4 class="text-white">Podcast Preferences</h4>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="podcast1">
+                                        <label class="form-check-label text-white" for="podcast1">
+                                        Technology
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="podcast2">
+                                        <label class="form-check-label text-white" for="podcast2">
+                                            Health & Wellness
+
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="podcast3">
+                                        <label class="form-check-label text-white" for="podcast3">
+                                            Business
+                                        </label>
+                                    </div>
+                                    <div class="preferences-error text-info" id="preferencesError">
+                                        Please select at least one podcast preference.
+                                    </div>
+                                </div>
+                                <button class="btn btn-primary mt-4" id="submitBtn">Submit</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        document.getElementById('submitBtn').addEventListener('click', function () {
+    // Form validation
+    var valid = true;
+    var profilePhoto = document.getElementById('profilePhoto');
+    var bio = document.getElementById('userBio');
+    var podcastPreferences = document.querySelectorAll('.form-check-input:checked');
+    var photoError = document.getElementById('photoError');
+    var preferencesError = document.getElementById('preferencesError');
+
+    // Validate profile photo
+    if (profilePhoto.src === '') {
+        photoError.classList.add('is-invalid');
+        valid = false;
+    } else {
+        photoError.classList.remove('is-invalid');
+    }
+
+    // Validate bio
+    if (bio.value.trim() === '') {
+        bio.classList.add('is-invalid');
+        valid = false;
+    } else {
+        bio.classList.remove('is-invalid');
+    }
+
+    // Validate podcast preferences
+    if (podcastPreferences.length === 0) {
+        preferencesError.classList.add('active');
+        valid = false;
+    } else {
+        preferencesError.classList.remove('active');
+    }
+
+    // If all validations pass, show success popup and redirect
+    if (valid) {
+        Swal.fire({
+            title: 'Success!',
+            text: 'Your profile has been updated successfully.',
+            icon: 'success',
+            confirmButtonText: 'OK',
+            timer: 3000,
+            timerProgressBar: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = 'create.html'; // Redirect to create.html
+            }
+        });
+    }
+});
+
+    </script>
+</body>
+
+</html>

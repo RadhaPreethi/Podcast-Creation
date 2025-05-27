@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AudioGenie</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- SweetAlert2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- SweetAlert2 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+      
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 30px;
+            
+            border-radius: 10px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        header {
+            /* text-align: center; */
+            margin-bottom: 30px;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            color: #007bff;
+            margin: 0;
+            animation: fadeIn 1s ease-out;
+        }
+
+        .notification-section {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: space-between;
+        }
+
+        .notification-category {
+            flex: 1 1 30%;
+            background: #007bff;
+            color: #fff;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            animation: fadeInUp 0.6s forwards;
+            opacity: 0;
+        }
+
+        .notification-category:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+        }
+
+        .notification-category h2 {
+            font-size: 1.8em;
+            margin: 0;
+            padding: 15px;
+            background: #0056b3;
+            border-bottom: 2px solid #003d80;
+            transition: background-color 0.3s ease;
+        }
+
+        .notification-category:hover h2 {
+            background-color: #003d80;
+        }
+
+        .notification-item {
+            padding: 20px;
+            border-bottom: 1px solid #0056b3;
+            transition: background-color 0.3s ease;
+        }
+
+        .notification-item:last-child {
+            border-bottom: none;
+        }
+
+        .notification-item:hover {
+            background-color: #0056b3;
+            color: #f4f6f9;
+        }
+
+        .notification-item p {
+            margin: 0;
+            color: #f4f6f9;
+        }
+
+        .notification-item a {
+            color: #fdd835;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .notification-item a:hover {
+            text-decoration: underline;
+        }
+
+        /* Notification Popup Styles */
+        .notification-popup {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #007bff;
+            color: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            pointer-events: none; /* Ensure it doesn't capture clicks until shown */
+        }
+
+        .notification-popup.show {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto; /* Allow interaction when shown */
+        }
+
+        .notification-popup .notification {
+            background: #0056b3;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+            position: relative;
+            animation: slideIn 0.5s ease-out, fadeInOut 2s ease-out;
+        }
+
+        .notification-popup .notification::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 0;
+            height: 2px;
+            background: #fdd835;
+            transition: width 0.3s ease;
+        }
+
+        .notification-popup .notification:hover::after {
+            width: 100%;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeInOut {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            10% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            90% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+        }
+        @media (max-width: 767px) {
+    .notification-section {
+        display: flex;
+        flex-direction: column;
+        align-items: center; /* Center horizontally */
+    }
+
+    .notification-category {
+        width: 100%; /* Make each category full width */
+        max-width: 93%; /* Limit maximum width to prevent overflow */
+        margin-bottom: 20px; /* Add spacing between categories */
+    }
+}
+.lib{
+            width: 100%;
+            border-radius: 5px;
+            padding: 10px;
+            font-size: 16px;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+
+    </style>
+</head>
+
+<body>
+    <!-- Navbar for mobile view -->
+    <nav class="navbar navbar-expand-lg d-lg-none">
+        <button class="navbar-toggler bg-white" type="button" data-toggle="collapse" data-target="#navbarMenu"
+            aria-controls="navbarMenu" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarMenu">
+            <h1 class="text-center"><a class="navbar-brand text-white" href="#"><span class="text-primary">A</span>udio<span class="text-info">G</span>enie</a></h1>
+
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="index.html">
+                        <i class="fa-solid fa-address-card mb-3 m-3 text-white fa-2x"></i>Profile</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link  text-white " href="create.html"> 
+                        <i class="fa-brands fa-creative-commons-share  mb-3 m-3 text-white fa-2x"></i>Podcast Creation</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="trim.html">
+                        <i class="fa-solid fa-wand-magic-sparkles  mb-3 m-3 text-white fa-2x"></i>Audio Editing </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="library.html">
+                        <i class="fa-solid fa-book-open-reader  mb-3 m-3 text-white fa-2x"></i>Library</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="search.html">
+                        <i class="fa-brands fa-searchengin  mb-3 m-3 text-white fa-2x"></i>Search </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white active" href="notification.html">
+                        <i class="fa-regular fa-bell mb-3 m-3 text-white fa-2x"></i>Notifications</a>
+                </li>
+                <a href="login.html">
+                    <button class="bg-secondary btn lib btn-center text-white mt-4 rounded-pill mb-3">Logout</button>
+                  </a>
+               
+            </ul>
+
+        </div>
+    </nav>
+
+    <!-- Sidebar for larger screens -->
+    <div class="d-none d-lg-block">
+        <nav id="sidebarMenu" class="sidebar">
+            <ul class="nav flex-column">
+                <h1 class="text-center"><a class="navbar-brand text-white" href="#"><span class="text-primary">A</span>udio<span class="text-info">G</span>enie</a></h1>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="index.html">
+                        <i class="fa-solid fa-address-card m-3"></i>Profile</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="create.html"> 
+                        <i class="fa-brands fa-creative-commons-share m-3"></i>Podcast Creation</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="trim.html">
+                        <i class="fa-solid fa-wand-magic-sparkles m-3"></i>Audio Editing </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="library.html">
+                        <i class="fa-solid fa-book-open-reader m-3"></i>Library</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="search.html">
+                        <i class="fa-brands fa-searchengin m-3"></i>Search </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="notification.html">
+                        <i class="fa-regular fa-bell m-3"></i>Notifications</a>
+                </li>
+                <a href="login.html">
+                    <button class="bg-secondary btn lib btn-center text-white mt-4 rounded-pill mb-3">Logout</button>
+                  </a>
+               
+            </ul>
+        </nav>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <header>
+            <h1 class="text-center text-white">Reminders</h1>
+        </header>
+        
+        <section class="notification-section">
+
+      <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-3 col-lg-3" >
+            <div class="notification-category" data-category="Episodes">
+                <h2>New Episodes</h2>
+                <div class="notification-item">
+                    <p>New episode available: "The Infinite Retina" - <a href="https://harpreet.fireside.fm/irena-cronin">Listen now</a></p>
+                </div>
+             </div>
+        </div>
+        <div class="col-md-3 col-lg-3">
+            <div class="notification-category" data-category="Updates">
+                <h2>Updates</h2>
+                <div class="notification-item">
+                    <p>Update: Version 1.2 is now live. <a href="https://www.apple.com/in/apple-podcasts/">See what's new</a></p>
+                </div>
+              
+            </div>
+        </div>
+        <div class="col-md-4 col-lg-4">
+            <div class="notification-category" data-category="Activities">
+                <h2>Recent Activities</h2>
+                <div class="notification-item">
+                    <p>User "Krishna" commented on your post - <a href="https://newsroom.spotify.com/2024-07-09/podcast-app-comments-update/">View comment</a></p>
+                </div>
+                
+            </div>
+        </div>
+      </div>
+
+
+                 
+        
+                 
+        
+            
+              
+          
+        </section>
+    </div>
+
+    <!-- Notification Popup -->
+    <div id="notification-popup" class="notification-popup"></div>
+
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const categories = document.querySelectorAll('.notification-category');
+            const popupContainer = document.getElementById('notification-popup');
+            
+            categories.forEach(category => {
+                category.addEventListener('click', () => {
+                    const categoryName = category.getAttribute('data-category');
+                    
+                    // Create a new notification element
+                    const notification = document.createElement('div');
+                    notification.classList.add('notification');
+                    notification.textContent = `You clicked on ${categoryName}`;
+                    
+                    // Append the new notification to the container
+                    popupContainer.appendChild(notification);
+                    
+                    // Show the popup container
+                    popupContainer.classList.add('show');
+                    
+                    // Remove the notification after 2 seconds
+                    setTimeout(() => {
+                        notification.classList.add('fadeOut');
+                        setTimeout(() => {
+                            popupContainer.removeChild(notification);
+                            if (popupContainer.children.length === 0) {
+                                popupContainer.classList.remove('show');
+                            }
+                        }, 1000); // Match this timeout with the fade-out animation duration
+                    }, 2000); // Show each notification for 2 seconds
+                });
+            });
+        });
+    </script>
+
+</body>
+
+</html>

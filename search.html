@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AudioGenie</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- SweetAlert2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- SweetAlert2 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Arial', sans-serif;
+        }
+        .container {
+            margin-top: 40px;
+        }
+        h1 {
+            color: #343a40;
+            margin-bottom: 40px;
+            font-weight: 700;
+            animation: fadeInDown 1s ease-out;
+        }
+        .filter-section {
+            margin-bottom: 30px;
+            animation: fadeIn 1s ease-in;
+        }
+        .form-group input, .form-group select {
+            border-radius: 30px;
+            padding: 10px 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease-in-out;
+            background-color: #ffffff;
+        }
+        .form-group input:focus, .form-group select:focus {
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            transform: scale(1.05);
+        }
+        .card {
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.4s ease-in-out, box-shadow 0.4s ease-in-out;
+            opacity: 0;
+            animation: fadeInUp 1.2s ease-out forwards;
+            overflow: hidden;
+            background: linear-gradient(to right, #ffffff, #f1f1f1);
+        }
+        .card:hover {
+            transform: translateY(-15px) scale(1.03);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+        .card-body {
+            text-align: center;
+            padding: 20px;
+            transition: background-color 0.3s ease-in-out;
+        }
+        .card-body:hover {
+            background-color: #f7f9fc;
+        }
+        .card-title {
+            color: #007bff;
+            font-weight: bold;
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            position: relative;
+            overflow: hidden;
+        }
+        .card-text {
+            color: #495057;
+            font-size: 1rem;
+        }
+        .btn-custom {
+            background-color: #007bff;
+            color: white;
+            border-radius: 30px;
+            padding: 10px 20px;
+            transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out;
+        }
+        .btn-custom:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .fade-in {
+            animation: fadeIn 1.5s ease-in-out;
+        }
+        .fade-in-delayed {
+            animation: fadeIn 1.5s ease-in-out;
+            animation-delay: 0.5s;
+        }
+        .card-title::after {
+            content: '';
+            display: block;
+            width: 0;
+            height: 2px;
+            background-color: #007bff;
+            transition: width 0.3s;
+        }
+        .card-title:hover::after {
+            width: 100%;
+        }
+        .filter-section {
+            animation: bounceIn 1s ease-out;
+        }
+        .card {
+            border: 1px solid #e0e0e0;
+        }
+        .card-body {
+            padding: 30px;
+            transition: padding 0.3s ease-in-out;
+        }
+        .card-body:hover {
+            padding: 35px;
+        }
+        @keyframes bounceIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+            60% {
+                opacity: 1;
+                transform: scale(1.1);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        .lib{
+            width: 100%;
+            border-radius: 5px;
+            padding: 10px;
+            font-size: 16px;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+        /* Add margin to create space between the filter boxes */
+.filter-section .form-group {
+    margin-right: 15px; /* Adjust this value as needed */
+}
+
+/* Remove margin on the last filter box to prevent extra space */
+.filter-section .form-group:last-child {
+    margin-right: 0;
+}
+
+  </style>
+</head>
+
+<body>
+     <!-- Navbar for mobile view -->
+     <nav class="navbar navbar-expand-lg d-lg-none">
+        <button class="navbar-toggler bg-white" type="button" data-toggle="collapse" data-target="#navbarMenu"
+            aria-controls="navbarMenu" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarMenu">
+            <h1 class="text-center"><a class="navbar-brand text-white" href="#"><span class="text-primary">A</span>udio<span class="text-info">G</span>enie</a></h1>
+
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="index.html">
+                        <i class="fa-solid fa-address-card mb-3 m-3 text-white fa-2x"></i>Profile</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link  text-white " href="create.html"> 
+                        <i class="fa-brands fa-creative-commons-share  mb-3 m-3 text-white fa-2x"></i>Podcast Creation</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="trim.html">
+                        <i class="fa-solid fa-wand-magic-sparkles  mb-3 m-3 text-white fa-2x"></i>Audio Editing </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="library.html">
+                        <i class="fa-solid fa-book-open-reader  mb-3 m-3 text-white fa-2x"></i>Library</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white active" href="search.html">
+                        <i class="fa-brands fa-searchengin  mb-3 m-3 text-white fa-2x"></i>Search </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="notification.html">
+                        <i class="fa-regular fa-bell mb-3 m-3 text-white fa-2x"></i>Notifications</a>
+                </li>
+                <a href="login.html">
+                    <button class="bg-secondary btn lib btn-center text-white mt-4 rounded-pill mb-3">Logout</button>
+                  </a>
+               
+            </ul>
+
+        </div>
+    </nav>
+
+    <!-- Sidebar for larger screens -->
+    <div class="d-none d-lg-block">
+        <nav id="sidebarMenu" class="sidebar">
+            <ul class="nav flex-column">
+                <h1 class="text-center"><a class="navbar-brand text-white" href="#"><span class="text-primary">A</span>udio<span class="text-info">G</span>enie</a></h1>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="index.html">
+                        <i class="fa-solid fa-address-card m-3"></i>Profile</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="create.html"> 
+                        <i class="fa-brands fa-creative-commons-share m-3"></i>Podcast Creation</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="trim.html">
+                        <i class="fa-solid fa-wand-magic-sparkles m-3"></i>Audio Editing </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="library.html">
+                        <i class="fa-solid fa-book-open-reader m-3"></i>Library</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="search.html">
+                        <i class="fa-brands fa-searchengin m-3"></i>Search </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="notification.html">
+                        <i class="fa-regular fa-bell m-3"></i>Notifications</a>
+                </li>
+                <a href="login.html">
+                    <button class="lib bg-secondary btn btn-center text-white mt-4 rounded-pill mb-3">Logout</button>
+                  </a>
+               
+            </ul>
+        </nav>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <h1 class="text-center text-white">Podcast Lookup</h1>
+        <div class="filter-section">
+
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-2"></div>
+                    <div class="col-md-3">
+                        <input type="text" class="form-control mb-3" id="searchInput" placeholder="Search by keyword">
+      
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <select class="form-control" id="categoryFilter">
+                                <option value="">All Categories</option>
+                                <option value="Technology">Technology</option>
+                                <option value="Health">Health</option>
+                                <option value="Education">Education</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <select class="form-control" id="popularityFilter">
+                                <i class="fa-solid fa-arrow-up-right-dots"></i>
+                                <option value="">All Popularity</option>
+                                <option value="High">High</option>
+                                <option value="Medium">Medium</option>
+                                <option value="Low">Low</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-1"></div>
+                </div>
+                     </div>
+        
+        </div>
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-8">
+                <div id="searchResults" class="row mb-4">
+                    <!-- Dynamic search results will be inserted here -->
+                </div>
+              
+            </div>
+            <div class="col-md-2"></div>
+        </div>
+        <div id="noResultsMessage" class="text-center" style="display: none;">
+            <h3>Your search did not return any results.</h3>
+        </div>
+    </div>
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        const podcasts = [
+            { title: 'Digital Frontier', category: 'Technology', popularity: 'High' },
+            { title: 'FitCast', category: 'Health', popularity: 'Medium' },
+            { title: 'SmartEDU', category: 'Education', popularity: 'Low' },
+             { title: 'Health Hub', category: 'Health', popularity: 'High' },
+            { title: 'EduTalks', category: 'Education', popularity: 'Low' },
+            { title: 'NextGen Tech', category: 'Technology', popularity: 'Medium' },
+         
+        ];
+
+        function displayResults(results) {
+            const searchResults = document.getElementById('searchResults');
+            const noResultsMessage = document.getElementById('noResultsMessage');
+
+            searchResults.innerHTML = '';
+
+            if (results.length === 0) {
+                searchResults.style.display = 'none';
+                noResultsMessage.style.display = 'block';
+            } else {
+                searchResults.style.display = 'flex'; // or 'block' if you prefer
+                noResultsMessage.style.display = 'none';
+                
+                results.forEach((podcast, index) => {
+                    const card = document.createElement('div');
+                    card.className = `col-md-4 fade-in`;
+                    card.style.animationDelay = `${index * 0.2}s`; // Staggered animation
+                    card.innerHTML = `
+                        <div class="card mt-4">
+                            <div class="card-body">
+                                <h5 class="card-title">${podcast.title}</h5>
+                                <p class="card-text">Category: ${podcast.category}</p>
+                                <p class="card-text">Popularity: ${podcast.popularity}</p>
+                            </div>
+                        </div>
+                    `;
+                    searchResults.appendChild(card);
+                });
+            }
+        }
+
+        function filterPodcasts() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const selectedCategory = document.getElementById('categoryFilter').value;
+            const selectedPopularity = document.getElementById('popularityFilter').value;
+
+            const results = podcasts.filter(podcast => {
+                const matchesQuery = podcast.title.toLowerCase().includes(query);
+                const matchesCategory = selectedCategory ? podcast.category === selectedCategory : true;
+                const matchesPopularity = selectedPopularity ? podcast.popularity === selectedPopularity : true;
+                return matchesQuery && matchesCategory && matchesPopularity;
+            });
+
+            displayResults(results);
+        }
+
+        document.getElementById('searchInput').addEventListener('input', filterPodcasts);
+        document.getElementById('categoryFilter').addEventListener('change', filterPodcasts);
+        document.getElementById('popularityFilter').addEventListener('change', filterPodcasts);
+
+        // Initial display
+        displayResults(podcasts);
+    </script>
+
+</body>
+
+</html>

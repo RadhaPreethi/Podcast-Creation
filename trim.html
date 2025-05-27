@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AudioGenie</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- SweetAlert2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- SweetAlert2 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="style.css">
+    <style>
+       
+        h1, h2 {
+            color: #343a40;
+            font-weight: bold;
+        }
+
+        .container {
+            /* background-color: #a1189cb7; */
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .audio-controls {
+            margin-top: 20px;
+        }
+
+        .btn {
+            width: 100%;
+            border-radius: 5px;
+            padding: 10px;
+            font-size: 16px;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #004085;
+        }
+
+        .btn-success {
+            background-color: #28a745;
+            border-color: #28a745;
+        }
+
+        .btn-success:hover {
+            background-color: #218838;
+            border-color: #1e7e34;
+        }
+
+        .form-control {
+            border-radius: 5px;
+            transition: border-color 0.3s;
+        }
+
+        .form-control:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.25);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .mt-5 {
+            margin-top: 3rem !important;
+        }
+
+        .mt-4 {
+            margin-top: 1.5rem !important;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .audio-player {
+            transition: border 0.3s, box-shadow 0.3s;
+        }
+
+        .audio-player:hover {
+            border: 2px solid #007bff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .hidden {
+            display: none;
+        }
+        .audio-controls {
+            margin-top: 20px;
+        }
+        .btn {
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar for mobile view -->
+    <nav class="navbar navbar-expand-lg d-lg-none">
+        <button class="navbar-toggler bg-white" type="button" data-toggle="collapse" data-target="#navbarMenu"
+            aria-controls="navbarMenu" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarMenu">
+            <h1 class="text-center"><a class="navbar-brand text-white" href="#"><span class="text-primary">A</span>udio<span class="text-info">G</span>enie</a></h1>
+
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="index.html">
+                        <i class="fa-solid fa-address-card mb-3 m-3 text-white fa-2x"></i>Profile</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link  text-white " href="create.html"> 
+                        <i class="fa-brands fa-creative-commons-share  mb-3 m-3 text-white fa-2x"></i>Podcast Creation</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white active" href="trim.html">
+                        <i class="fa-solid fa-wand-magic-sparkles  mb-3 m-3 text-white fa-2x"></i>Audio Editing </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="library.html">
+                        <i class="fa-solid fa-book-open-reader  mb-3 m-3 text-white fa-2x"></i>Library</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="search.html">
+                        <i class="fa-brands fa-searchengin  mb-3 m-3 text-white fa-2x"></i>Search </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="notification.html">
+                        <i class="fa-regular fa-bell mb-3 m-3 text-white fa-2x"></i>Notifications</a>
+                </li>
+                <a href="login.html">
+                    <button class="bg-secondary btn btn-lg btn-center text-white mt-4 rounded-pill mb-3">Logout</button>
+                  </a>
+               
+            </ul>
+
+        </div>
+    </nav>
+
+    <!-- Sidebar for larger screens -->
+    <div class="d-none d-lg-block">
+        <nav id="sidebarMenu" class="sidebar">
+            <ul class="nav flex-column">
+                <h1 class="text-center"><a class="navbar-brand text-white" href="#"><span class="text-primary">A</span>udio<span class="text-info">G</span>enie</a></h1>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="index.html">
+                        <i class="fa-solid fa-address-card m-3"></i>Profile</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="create.html"> 
+                        <i class="fa-brands fa-creative-commons-share m-3"></i>Podcast Creation</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="trim.html">
+                        <i class="fa-solid fa-wand-magic-sparkles m-3"></i>Audio Editing </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="library.html">
+                        <i class="fa-solid fa-book-open-reader m-3"></i>Library</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="search.html">
+                        <i class="fa-brands fa-searchengin m-3"></i>Search </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="notification.html">
+                        <i class="fa-regular fa-bell m-3"></i>Notifications</a>
+                </li>
+                <a href="login.html">
+                    <button class="bg-secondary btn btn-lg btn-center text-white mt-4 rounded-pill mb-3">Logout</button>
+                  </a>
+               
+            </ul>
+        </nav>
+    </div>
+
+
+    <!-- Main Content -->
+    <div class="container mt-5">
+        <h1 class="text-center text-white">Podcast-Editor</h1>
+        
+        <div class="row">
+            <div class="col-md-4"></div>
+            <div class="col-md-4">
+                <h4>Upload Audio Files</h4>
+                <input type="file" id="audioFiles" class="form-control" multiple>
+                <audio id="audioPlayer" controls class="mt-3 w-100"></audio>
+            </div>
+
+            <div class="col-md-4">
+              
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4"></div>
+            <div class="col-md-4">
+
+                    <h4 class="text-white text-center mt-4">Edit Audio</h4>
+                    <div class="form-group">
+                        <label for="trimStart">Trim Start (seconds)</label>
+                        <input type="number" id="trimStart" class="form-control" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="trimEnd">Trim End (seconds)</label>
+                        <input type="number" id="trimEnd" class="form-control" min="0">
+                    </div>
+                    <button id="applyTrim" class="btn btn-primary mt-3">Apply Trim</button>
+                    
+                    <div class="form-group mt-4">
+                        <label for="effectSelect">Add Effect</label>
+                        <select id="effectSelect" class="form-control">
+                            <option value="">None</option>
+                            <option value="echo">Echo</option>
+                            <option value="reverb">Reverb</option>
+                            <option value="pitch">Pitch Shift</option>
+                        </select>
+                    </div>
+                    <div class="form-group mt-4" id="pitchShiftGroup" style="display: none;">
+                        <label for="pitchShift">Pitch Shift (semitones)</label>
+                        <input type="number" id="pitchShift" class="form-control" min="-12" max="12" step="0.1">
+                    </div>
+                    <button id="applyEffect" class="btn btn-primary mt-3">Apply Effect</button>
+    
+                    <div class="form-group mt-4">
+                        <label for="mixAudioFiles">Mix Audio Files</label>
+                        <input type="file" id="mixAudioFiles" class="form-control" multiple>
+                        <button id="applyMix" class="btn btn-primary mt-3">Mix Audio Files</button>
+                    </div>
+                
+            </div>
+            <div class="col-md-4">
+                <div class="mt-5 text-center">
+                    <button id="exportAudio" class="btn btn-success">Export Edited Audio</button>
+                </div>
+            </div>
+        </div>
+       
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const audioFilesInput = document.getElementById('audioFiles');
+            const mixAudioFilesInput = document.getElementById('mixAudioFiles');
+            const audioPlayer = document.getElementById('audioPlayer');
+            const trimStartInput = document.getElementById('trimStart');
+            const trimEndInput = document.getElementById('trimEnd');
+            const applyTrimButton = document.getElementById('applyTrim');
+            const effectSelect = document.getElementById('effectSelect');
+            const applyEffectButton = document.getElementById('applyEffect');
+            const exportAudioButton = document.getElementById('exportAudio');
+            const pitchShiftInput = document.getElementById('pitchShift');
+            const pitchShiftGroup = document.getElementById('pitchShiftGroup');
+            const applyMixButton = document.getElementById('applyMix');
+
+            let audioContext;
+            let audioBuffer;
+            let editedBuffer;
+            let mixedBuffers = [];
+
+            audioFilesInput.addEventListener('change', handleAudioUpload);
+            mixAudioFilesInput.addEventListener('change', handleMixUpload);
+            applyTrimButton.addEventListener('click', applyTrim);
+            applyEffectButton.addEventListener('click', applyEffect);
+            exportAudioButton.addEventListener('click', exportAudio);
+            applyMixButton.addEventListener('click', mixAudio);
+
+            effectSelect.addEventListener('change', function() {
+                if (this.value === 'pitch') {
+                    pitchShiftGroup.style.display = 'block';
+                } else {
+                    pitchShiftGroup.style.display = 'none';
+                }
+            });
+
+            function handleAudioUpload() {
+                const files = this.files;
+                if (files.length === 0) return;
+
+                const file = files[0];
+                const reader = new FileReader();
+
+                reader.onload = function(event) {
+                    audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                    audioContext.decodeAudioData(event.target.result, function(buffer) {
+                        audioBuffer = buffer;
+                        audioPlayer.src = URL.createObjectURL(file);
+                    });
+                };
+
+                reader.readAsArrayBuffer(file);
+            }
+
+            function handleMixUpload() {
+                const files = this.files;
+                if (files.length === 0) return;
+
+                mixedBuffers = [];
+                const filePromises = Array.from(files).map(file => {
+                    return new Promise((resolve, reject) => {
+                        const reader = new FileReader();
+
+                        reader.onload = function(event) {
+                            audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                            audioContext.decodeAudioData(event.target.result, function(buffer) {
+                                mixedBuffers.push(buffer);
+                                resolve();
+                            });
+                        };
+
+                        reader.readAsArrayBuffer(file);
+                    });
+                });
+
+                Promise.all(filePromises).then(() => {
+                    alert('Files loaded for mixing!');
+                });
+            }
+
+            function applyTrim() {
+                if (!audioBuffer) return;
+
+                const start = parseFloat(trimStartInput.value);
+                const end = parseFloat(trimEndInput.value);
+                const sampleRate = audioBuffer.sampleRate;
+                
+                const startSample = Math.floor(start * sampleRate);
+                const endSample = Math.floor(end * sampleRate);
+
+                if (startSample >= endSample || startSample < 0 || endSample > audioBuffer.length) {
+                    alert('Invalid trim range.');
+                    return;
+                }
+                
+                const numberOfChannels = audioBuffer.numberOfChannels;
+                const trimmedBufferLength = endSample - startSample;
+
+                editedBuffer = audioContext.createBuffer(
+                    numberOfChannels,
+                    trimmedBufferLength,
+                    sampleRate
+                );
+
+                for (let channel = 0; channel < numberOfChannels; channel++) {
+                    const inputData = audioBuffer.getChannelData(channel);
+                    const outputData = editedBuffer.getChannelData(channel);
+                    outputData.set(inputData.subarray(startSample, endSample));
+                }
+
+                audioPlayer.src = URL.createObjectURL(bufferToBlob(editedBuffer));
+            }
+
+            function applyEffect() {
+                if (!editedBuffer) return;
+
+                const effect = effectSelect.value;
+                const pitchShiftValue = parseFloat(pitchShiftInput.value);
+
+                if (effect === 'echo') {
+                    applyEchoEffect(editedBuffer);
+                } else if (effect === 'reverb') {
+                    applyReverbEffect(editedBuffer);
+                } else if (effect === 'pitch') {
+                    applyPitchShiftEffect(editedBuffer, pitchShiftValue);
+                }
+            }
+
+            function exportAudio() {
+                if (!editedBuffer) return;
+                const blob = bufferToBlob(editedBuffer);
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'edited-audio.wav';
+                a.click();
+            }
+
+            function mixAudio() {
+                if (mixedBuffers.length === 0) return;
+
+                const sampleRate = mixedBuffers[0].sampleRate;
+                const numberOfChannels = mixedBuffers[0].numberOfChannels;
+
+                // Determine the length of the longest buffer
+                const maxLength = Math.max(...mixedBuffers.map(buffer => buffer.length));
+                const mixedBuffer = audioContext.createBuffer(numberOfChannels, maxLength, sampleRate);
+
+                // Initialize the mixed buffer with zeroes
+                const mixedData = [];
+                for (let i = 0; i < numberOfChannels; i++) {
+                    mixedData[i] = mixedBuffer.getChannelData(i);
+                    mixedData[i].fill(0);
+                }
+
+                // Mix each buffer
+                mixedBuffers.forEach(buffer => {
+                    for (let i = 0; i < numberOfChannels; i++) {
+                        const inputData = buffer.getChannelData(i);
+                        const outputData = mixedData[i];
+                        for (let j = 0; j < inputData.length; j++) {
+                            outputData[j] += inputData[j]; // Mix audio by summing channels
+                        }
+                    }
+                });
+
+                editedBuffer = mixedBuffer;
+                audioPlayer.src = URL.createObjectURL(bufferToBlob(editedBuffer));
+            }
+
+            function bufferToBlob(buffer) {
+                const numberOfChannels = buffer.numberOfChannels;
+                const length = buffer.length * numberOfChannels * 2 + 44;
+                const view = new DataView(new ArrayBuffer(length));
+                let offset = 0;
+
+                function writeString(string) {
+                    for (let i = 0; i < string.length; i++) {
+                        view.setUint8(offset++, string.charCodeAt(i));
+                    }
+                }
+
+                function writeUint32(value) {
+                    view.setUint32(offset, value, true);
+                    offset += 4;
+                }
+
+                function writeUint16(value) {
+                    view.setUint16(offset, value, true);
+                    offset += 2;
+                }
+
+                function writeFloat32(value) {
+                    view.setFloat32(offset, value, true);
+                    offset += 4;
+                }
+
+                writeString('RIFF');
+                writeUint32(length - 8);
+                writeString('WAVE');
+                writeString('fmt ');
+                writeUint32(16);
+                writeUint16(1);
+                writeUint16(numberOfChannels);
+                writeUint32(buffer.sampleRate);
+                writeUint32(buffer.sampleRate * numberOfChannels * 2);
+                writeUint16(numberOfChannels * 2);
+                writeUint16(16);
+                writeString('data');
+                writeUint32(buffer.length * numberOfChannels * 2);
+
+                for (let i = 0; i < numberOfChannels; i++) {
+                    const channelData = buffer.getChannelData(i);
+                    for (let j = 0; j < channelData.length; j++) {
+                        view.setInt16(offset, Math.max(-1, Math.min(1, channelData[j])) * 32767, true);
+                        offset += 2;
+                    }
+                }
+
+                return new Blob([view], { type: 'audio/wav' });
+            }
+
+            function applyEchoEffect(buffer) {
+                const delay = 0.2; // Delay time in seconds
+                const delaySamples = Math.floor(delay * buffer.sampleRate);
+                const newBuffer = audioContext.createBuffer(buffer.numberOfChannels, buffer.length + delaySamples, buffer.sampleRate);
+
+                for (let i = 0; i < buffer.numberOfChannels; i++) {
+                    const inputData = buffer.getChannelData(i);
+                    const outputData = newBuffer.getChannelData(i);
+
+                    for (let j = 0; j < inputData.length; j++) {
+                        outputData[j] = inputData[j];
+                        if (j >= delaySamples) {
+                            outputData[j] += 0.5 * inputData[j - delaySamples]; // Echo effect
+                        }
+                    }
+                }
+
+                editedBuffer = newBuffer;
+                audioPlayer.src = URL.createObjectURL(bufferToBlob(editedBuffer));
+            }
+
+            function applyReverbEffect(buffer) {
+                // Reverb simulation (simplified, actual reverb implementation is more complex)
+                const decay = 0.5; // Decay factor
+                const delay = 0.2; // Delay time in seconds
+                const delaySamples = Math.floor(delay * buffer.sampleRate);
+                const newBuffer = audioContext.createBuffer(buffer.numberOfChannels, buffer.length + delaySamples, buffer.sampleRate);
+
+                for (let i = 0; i < buffer.numberOfChannels; i++) {
+                    const inputData = buffer.getChannelData(i);
+                    const outputData = newBuffer.getChannelData(i);
+
+                    for (let j = 0; j < inputData.length; j++) {
+                        outputData[j] = inputData[j];
+                        if (j >= delaySamples) {
+                            outputData[j] += decay * inputData[j - delaySamples]; // Reverb effect
+                        }
+                    }
+                }
+
+                editedBuffer = newBuffer;
+                audioPlayer.src = URL.createObjectURL(bufferToBlob(editedBuffer));
+            }
+
+            function applyPitchShiftEffect(buffer, pitchShift) {
+                if (isNaN(pitchShift)) return;
+
+                const pitchFactor = Math.pow(2, pitchShift / 12);
+                const newBuffer = audioContext.createBuffer(
+                    buffer.numberOfChannels,
+                    Math.floor(buffer.length / pitchFactor),
+                    buffer.sampleRate
+                );
+
+                for (let i = 0; i < buffer.numberOfChannels; i++) {
+                    const inputData = buffer.getChannelData(i);
+                    const outputData = newBuffer.getChannelData(i);
+
+                    for (let j = 0; j < outputData.length; j++) {
+                        outputData[j] = inputData[Math.floor(j * pitchFactor)];
+                    }
+                }
+
+                editedBuffer = newBuffer;
+                audioPlayer.src = URL.createObjectURL(bufferToBlob(editedBuffer));
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,69 @@
+body{
+    background-image: url(https://w0.peakpx.com/wallpaper/514/370/HD-wallpaper-purple-lines-and-ball-lights-shades-purple-aesthetic.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    color: white;
+}
+
+
+
+
+/* Sidebar styling */
+#sidebarMenu {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 100;
+    width: 250px;
+    padding-top: 20px;
+    background-color: #721f869f;
+    border-right: 1px solid #ddd;
+}
+
+#sidebarMenu .nav-link {
+    font-weight: 500;
+    color: #ffffff;
+    padding: 10px 15px;
+}
+
+#sidebarMenu .nav-link.active {
+    color: #007bff;
+    background-color: #e9ecef;
+}
+
+#sidebarMenu .nav-link:hover {
+    color: #0056b3;
+    background-color: #e2e6ea;
+}
+
+/* Content styling */
+.content {
+    margin-left: 250px;
+    padding: 20px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 991px) {
+    #sidebarMenu {
+        width: 100%;
+        height: auto;
+        position: static;
+        border-right: none;
+    }
+
+    .content {
+        margin-left: 0;
+    }
+}
+
+@media (max-width: 767px) {
+    #sidebarMenu {
+        display: none;
+    }
+
+    .navbar-toggler {
+        display: block;
+    }
+}
